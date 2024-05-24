@@ -3,8 +3,17 @@ spring:
     url: jdbc:h2:mem:camunda-db;DB_CLOSE_DELAY=-1
     driverClassName: org.h2.Driver
     username: sa
-    password: password
+    password: sa
     platform: h2
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
 
 camunda.bpm:
   admin-user:
@@ -18,3 +27,29 @@ camunda:
     generic-properties:
       properties:
         historyTimeToLive: P1D
+
+# SWAGGER CONFIG
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui-custom.html
+    operationsSorter: method
+    tagsSorter: alpha
+    showExtensions: true
+    displayOperationId: true
+    displayRequestDuration: true
+    deepLinking: true
+    defaultModelsExpandDepth: 1
+
+# ACTUATOR CONFIG
+management:
+  endpoints:
+    web:
+      exposure:
+        include: info,health,prometheus,metrics
+
+# LOGGING CONFIG
+logging:
+  pattern:
+    level: '%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]'

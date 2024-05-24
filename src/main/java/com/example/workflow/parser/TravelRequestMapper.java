@@ -1,13 +1,17 @@
 package com.example.workflow.parser;
 
 import com.example.workflow.controller.dto.TravelRequestDTO;
+import com.example.workflow.model.Travel;
+import com.example.workflow.utils.TravelStatusEnum;
+import org.apache.commons.lang3.StringUtils;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
 import java.util.HashMap;
 
-@Mapper
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface TravelRequestMapper {
 
     public static final String TYPE = "api";
@@ -20,7 +24,6 @@ public interface TravelRequestMapper {
         map.put("type", TYPE);
         map.put("travelerName", dto.getTravelerName());
         map.put("email", dto.getEmail());
-        map.put("travelerDocument", dto.getTravelerDocument());
         map.put("justification", dto.getJustification());
         map.put("origin", dto.getOrigin());
         map.put("destination", dto.getDestination());
@@ -30,4 +33,15 @@ public interface TravelRequestMapper {
         map.put("department", dto.getDepartment());
         return map;
     }
+
+    Travel parseToEntity(TravelRequestDTO travelRequestDTO);
+
+    default Travel parseTravelToTravelStatus(Travel entity, TravelStatusEnum status) {
+        if (entity == null) {
+            return null;
+        }
+        entity.setStatus(status.name());
+        return entity;
+    }
+
 }
