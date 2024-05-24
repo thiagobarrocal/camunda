@@ -43,9 +43,9 @@ public class Travel extends Base {
 
     private String destination;
 
-    private LocalDate departureDate;
+    private String departureDate;
 
-    private LocalDate returnDate;
+    private String returnDate;
 
     private Double amount;
 

@@ -7,6 +7,7 @@ import com.example.workflow.repository.TravelRepository;
 import com.example.workflow.utils.Checkers;
 import com.example.workflow.utils.TravelStatusEnum;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -34,17 +35,14 @@ public class TravelService {
         Checkers.mustNotBeBlank(travelRequestDTO.getDepartment(), "The department is required");
     }
 
-    public Travel updateTravelStatusByEmail(String email, TravelStatusEnum status) {
-        Optional<Travel> travel = travelRepository.findByEmail(email);
+    @Async
+    public void updateTravelStatusByEmail(String email, TravelStatusEnum status) {
+        Optional<Travel> travel = travelRepository.findFirstByEmailOrderByIdDesc(email);
         if (travel.isEmpty()) {
             throw new IllegalArgumentException("The travel with email " + email + " does not exist");
         }
 
         var entity = TravelRequestMapper.INSTANCE.parseTravelToTravelStatus(travel.get(), status);
-        return travelRepository.save(entity);
-    }
-
-    public Optional<Travel> getTravelByEmail(String email) {
-        return travelRepository.findByEmail(email);
+        travelRepository.save(entity);
     }
 }

@@ -4,7 +4,7 @@ public enum TravelStatusEnum {
 
     PENDING("PENDING"),
     APPROVED("APPROVED"),
-    REJECTED("REJECTED");
+    DENIED("DENIED");
 
     private final String status;
 

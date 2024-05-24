@@ -40,6 +40,7 @@ public interface TravelRequestMapper {
         if (entity == null) {
             return null;
         }
+        entity.setId(entity.getId());
         entity.setStatus(status.name());
         return entity;
     }

@@ -1,31 +1,31 @@
 package com.example.workflow.service;
 
-
 import com.example.workflow.utils.TravelStatusEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-public class ApprovalEmailStrategy implements EmailStrategy {
+public class DeniedEmailStrategy implements EmailStrategy {
 
     private TravelService travelService;
 
     @Autowired
-    public ApprovalEmailStrategy(TravelService travelService) {
+    public DeniedEmailStrategy(TravelService travelService) {
         this.travelService = travelService;
     }
 
     @Override
     public void sendEmail(String emailTo, String message) {
-        updateTravelStatusByEmailToApproved(emailTo);
+        updateTravelStatusByEmailToDenied(emailTo);
         // send email
-        log.info("Sending approval email to {}", emailTo);
+        log.info("Sending rejection email to {}", emailTo);
 
     }
 
-    public void updateTravelStatusByEmailToApproved(String email) {
-        travelService.updateTravelStatusByEmail(email, TravelStatusEnum.APPROVED);
+    public void updateTravelStatusByEmailToDenied(String email) {
+        travelService.updateTravelStatusByEmail(email, TravelStatusEnum.DENIED);
     }
 }

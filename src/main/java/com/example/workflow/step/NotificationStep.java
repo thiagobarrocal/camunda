@@ -2,25 +2,32 @@ package com.example.workflow.step;
 
 import com.example.workflow.service.ApprovalEmailStrategy;
 import com.example.workflow.service.EmailSender;
-import com.example.workflow.service.RejectionEmailStrategy;
+import com.example.workflow.service.DeniedEmailStrategy;
 import jakarta.inject.Named;
-import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@Log
+
 @Named("notificationStep")
 @Component
+@Slf4j
 public class NotificationStep implements JavaDelegate {
 
     private static final String VARIABLE_NOTIFICATION_CHECKPOINT = "travelCheckpoint";
     private static final String VARIABLE_EMAIL_CUSTOMER = "email";
 
+    private ApprovalEmailStrategy approvalEmailStrategy;
+    private DeniedEmailStrategy deniedEmailStrategy;
     private final EmailSender emailSender;
 
-    public NotificationStep(EmailSender emailSender) {
+    @Autowired
+    public NotificationStep(EmailSender emailSender, ApprovalEmailStrategy approvalEmailStrategy, DeniedEmailStrategy deniedEmailStrategy) {
         this.emailSender = emailSender;
+        this.approvalEmailStrategy = approvalEmailStrategy;
+        this.deniedEmailStrategy = deniedEmailStrategy;
     }
 
     @Override
@@ -28,19 +35,18 @@ public class NotificationStep implements JavaDelegate {
         String recipient = (String) delegateExecution.getVariable(VARIABLE_EMAIL_CUSTOMER);
         String notificationType = (String) delegateExecution.getVariable(VARIABLE_NOTIFICATION_CHECKPOINT);
         notifyClient(recipient, notificationType);
-        log.info("Sending notification to the customer");
-        //delegateExecution.setVariable("lateNotificationSent", true);
+        log.info("Sending notification to the customer with email: {} and status: {}", recipient, notificationType);
     }
 
     public void notifyClient(String recipient, String notificationType) {
         String message;
         switch (notificationType) {
             case "approved":
-                emailSender.setEmailStrategy(new ApprovalEmailStrategy());
+                emailSender.setEmailStrategy(approvalEmailStrategy);
                 message = "Your request has been approved.";
                 break;
             case "denied":
-                emailSender.setEmailStrategy(new RejectionEmailStrategy());
+                emailSender.setEmailStrategy(deniedEmailStrategy);
                 message = "Your request has been rejected.";
                 break;
             default:

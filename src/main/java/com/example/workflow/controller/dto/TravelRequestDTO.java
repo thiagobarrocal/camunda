@@ -28,13 +28,11 @@ public class TravelRequestDTO {
     @NotBlank(message = "The destination is required")
     private String destination;
 
-    @NotNull(message = "The departure date is required")
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDate departureDate;
+    @NotBlank(message = "The departure date is required")
+    private String departureDate;
 
-    @NotNull(message = "The return date is required")
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDate returnDate;
+    @NotBlank(message = "The return date is required")
+    private String returnDate;
 
     @NotNull(message = "The amount is required")
     private Double amount;
