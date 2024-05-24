@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="Definitions_0zaxqcs" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.23.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.21.0">
+  <decision id="dmn_travel" name="Decision 1">
+    <decisionTable id="DecisionTable_0g50e17">
+      <input id="Input_1" camunda:inputVariable="department">
+        <inputExpression id="InputExpression_1" typeRef="string" expressionLanguage="">
+          <text>department</text>
+        </inputExpression>
+        <inputValues id="UnaryTests_1b2gqu3">
+          <text>"sales","marketing"</text>
+        </inputValues>
+      </input>
+      <input id="InputClause_1rhltz0" camunda:inputVariable="amount">
+        <inputExpression id="LiteralExpression_0782nm4" typeRef="double">
+          <text>amount</text>
+        </inputExpression>
+      </input>
+      <output id="Output_1" name="type" typeRef="string" />
+      <rule id="DecisionRule_0wpj4w6">
+        <inputEntry id="UnaryTests_0ek0ozz">
+          <text>"sales"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_05ocmje">
+          <text>&lt;=1000</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1qhhe3c">
+          <text>"automatic"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_18qksmz">
+        <inputEntry id="UnaryTests_01i683f">
+          <text>"marketing"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1wz9vnt">
+          <text>&lt;=500</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_05vn3wd">
+          <text>"automatic"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_08ix6d7">
+        <inputEntry id="UnaryTests_0k2yjd7">
+          <text>"sales"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0q4givw">
+          <text>&gt;1000</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0zl4odo">
+          <text>"manual"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0mcq9yg">
+        <inputEntry id="UnaryTests_083me81">
+          <text>"marketing"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1r9g6zi">
+          <text>&gt;500</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1d6ufg9">
+          <text>"manual"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_000ofsz">
+        <inputEntry id="UnaryTests_1ixbfng">
+          <text>not("sales","marketing")</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0i92qd3">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1othw77">
+          <text>"manual"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="dmn_travel">
+        <dc:Bounds height="80" width="180" x="160" y="100" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

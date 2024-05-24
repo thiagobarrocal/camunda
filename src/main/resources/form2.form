@@ -1,0 +1,69 @@
+{
+  "components": [
+    {
+      "text": "# Aprovação Viagem",
+      "label": "Text view",
+      "type": "text",
+      "layout": {
+        "row": "Row_00bs8xy",
+        "columns": null
+      },
+      "id": "Field_01nsq0m"
+    },
+    {
+      "label": "Separator",
+      "type": "separator",
+      "layout": {
+        "row": "Row_0bmmm16",
+        "columns": null
+      },
+      "id": "Field_0ctmsnw"
+    },
+    {
+      "values": [
+        {
+          "label": "Approved",
+          "value": "approved"
+        },
+        {
+          "label": "Denied",
+          "value": "denied"
+        },
+        {
+          "label": "Need change",
+          "value": "change"
+        }
+      ],
+      "label": "Escolha uma opção",
+      "type": "select",
+      "layout": {
+        "row": "Row_1mjr9x3",
+        "columns": null
+      },
+      "id": "Field_17pg8wy",
+      "key": "travelCheckpoint",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "action": "submit",
+      "label": "OK",
+      "type": "button",
+      "layout": {
+        "row": "Row_0xmu8gg",
+        "columns": null
+      },
+      "id": "Field_1cz5dkm"
+    }
+  ],
+  "type": "default",
+  "id": "form2",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.23.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.21.0",
+  "schemaVersion": 16
+}
