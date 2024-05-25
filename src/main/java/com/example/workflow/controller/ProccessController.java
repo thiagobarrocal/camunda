@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping(value = "/proccess")
+@RequestMapping(value = "/v1/proccess")
 public class ProccessController {
 
     private final ProcessService processService;

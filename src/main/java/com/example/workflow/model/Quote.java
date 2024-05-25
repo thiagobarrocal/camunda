@@ -1,5 +1,6 @@
 package com.example.workflow.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
@@ -20,12 +21,15 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @SuperBuilder
-@Table(name="travel", schema = "public")
-public class Travel extends Base {
+@Table(name="quote", schema = "public")
+public class Quote extends Base {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "quote_reference_id")
+    private String quoteReferenceId;
 
     private String travelerName;
 
