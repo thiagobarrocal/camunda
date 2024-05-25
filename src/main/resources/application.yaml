@@ -42,12 +42,48 @@ springdoc:
     deepLinking: true
     defaultModelsExpandDepth: 1
 
-# ACTUATOR CONFIG
+
+### Spring Boot Actuator ###
+# Metrics related configurations
 management:
+  server:
+    port: 8080
+  endpoint:
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+    health:
+      probes:
+        enabled: true
   endpoints:
     web:
       exposure:
-        include: info,health,prometheus,metrics
+        include: "*"
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+  security:
+    enabled: false
+  health:
+    livenessState:
+      enabled: true
+    readinessState:
+      enabled: true
+
+# LOGS AOP
+im:
+  aop:
+    loggers:
+      entering-level: INFO
+      entering-message: "Executando o metodo [{method}] com os parametros [{parameters}]"
+      exited-level: INFO
+      exited-message: "O metodo [{method}] executou normalmente retornando [{return-value}]"
+      exited-abnormally-level: ERROR
+      exited-abnormally-message: "O metodo [{method}] lancou uma execao [{exception}]"
+      elapsed-level: INFO
+      elapsed-message: "A execucao do metodo [{method}] durou [{elapsed}]"
 
 # LOGGING CONFIG
 logging:

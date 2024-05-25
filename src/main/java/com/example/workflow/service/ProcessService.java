@@ -1,9 +1,10 @@
 package com.example.workflow.service;
 
+import com.example.workflow.controller.dto.CancelProcessDto;
 import com.example.workflow.controller.dto.TravelRequestDTO;
-import com.example.workflow.exception.StartProcessException;
+import com.example.workflow.exception.CamundaProcessException;
 import com.example.workflow.parser.TravelRequestMapper;
-import lombok.extern.java.Log;
+import com.example.workflow.utils.Checkers;
 import lombok.extern.slf4j.Slf4j;
 import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.ProcessEngines;
@@ -11,7 +12,6 @@ import org.camunda.bpm.engine.RuntimeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 
@@ -30,7 +30,6 @@ public class ProcessService {
 
     public void startProcess(TravelRequestDTO travelRequestDTO) {
         try {
-            // Save the travel request asynchronously
             saveTravelRequest(travelRequestDTO);
 
             Map<String, Object> variables = TravelRequestMapper.INSTANCE.toMap(travelRequestDTO);
@@ -43,7 +42,23 @@ public class ProcessService {
 
         } catch (Exception e) {
             log.error("Error starting the process: " + e.getMessage());
-            throw  new StartProcessException("Error starting the initial process");
+            throw  new CamundaProcessException("Error starting the initial process");
+        }
+    }
+
+    public void cancelProcess(CancelProcessDto cancelProcessDto) {
+        try {
+            Checkers.mustNotBeNull(cancelProcessDto, "The cancelProcessDto request must not be null");
+            Checkers.mustNotBeNull(cancelProcessDto.getProcessId(), "The process id must not be null");
+
+            ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+            RuntimeService runtimeService = processEngine.getRuntimeService();
+            runtimeService.deleteProcessInstance(cancelProcessDto.getProcessId(), null);
+            log.info("Process '{}' canceled successfully", cancelProcessDto.getProcessId());
+
+        } catch (Exception e) {
+            log.error("Error canceling the process id '{}' error: {}", cancelProcessDto.getProcessId(), e.getMessage());
+            throw  new CamundaProcessException("Error canceling the process");
         }
     }
 
