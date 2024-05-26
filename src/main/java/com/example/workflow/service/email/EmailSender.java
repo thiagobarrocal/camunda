@@ -20,9 +20,13 @@ public class EmailSender {
     @Value("${SENDGRID_API_KEY}")
     public String SENDGRID_API_KEY;
 
-    public void sendSimpleMessage(String to, String subject, String text) {
+    @Value("${EMAIL_SENDER}")
+    public String EMAIL_SENDER;
 
-        Email emailFrom = new Email("thiagobarrocal@gmail.com");
+    @Value("${SEND_EMAIL}")
+    public Boolean isSendMail;
+    public void sendSimpleMessage(String to, String subject, String text) {
+        Email emailFrom = new Email(EMAIL_SENDER);
         Email emailTo = new Email(to);
         Content content = new Content("text/plain", text);
         Mail mail = new Mail(emailFrom, subject, emailTo, content);
@@ -33,8 +37,13 @@ public class EmailSender {
             request.setMethod(Method.POST);
             request.setEndpoint("mail/send");
             request.setBody(mail.build());
-            Response response = sg.api(request);
-            log.info("Email sent successfully to '{}' with subject '{}'", to, subject);
+            if (isSendMail) {
+                sg.api(request);
+                log.info("Email sent successfully to '{}' with subject '{}'", to, subject);
+
+            } else {
+                log.info("Email property configuration is set to 'false'");
+            }
 
         } catch (IOException ex) {
             log.error("Error sending email to '{}'", to, ex);

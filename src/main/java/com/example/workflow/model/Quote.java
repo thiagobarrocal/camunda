@@ -30,23 +30,7 @@ public class Quote extends Base {
 
     @Column(name = "quote_reference_id")
     private String quoteReferenceId;
-
     private String travelerName;
-
     private String email;
-
-    private String origin;
-
-    private String destination;
-
-    private String departureDate;
-
-    private String returnDate;
-
-    private Double amount;
-
-    private String department;
-
-    private String status;
-
+    private Double totalExpenseQuote;
 }

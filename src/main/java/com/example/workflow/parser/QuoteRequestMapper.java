@@ -11,6 +11,7 @@ import org.mapstruct.factory.Mappers;
 public interface QuoteRequestMapper {
 
     QuoteRequestMapper INSTANCE = Mappers.getMapper(QuoteRequestMapper.class);
+
     Quote parseToEntity(QuoteRequestDto quoteRequestDTO);
     QuoteResponseDto parseToDto(Quote quote);
 

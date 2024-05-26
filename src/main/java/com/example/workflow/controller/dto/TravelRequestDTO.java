@@ -1,13 +1,10 @@
 package com.example.workflow.controller.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-
-import java.time.LocalDate;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
@@ -19,8 +16,6 @@ public class TravelRequestDTO {
     @NotBlank(message = "The email is required")
     @Email(message = "The email is invalid")
     private String email;
-
-    private String justification;
 
     @NotBlank(message = "The origin is required")
     private String origin;

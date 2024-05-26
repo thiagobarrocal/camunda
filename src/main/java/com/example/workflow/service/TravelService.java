@@ -35,14 +35,27 @@ public class TravelService {
         Checkers.mustNotBeBlank(travelRequestDTO.getDepartment(), "The department is required");
     }
 
-    @Async
+    public void updateTravelQuoteIdByEmail(String email, String quoteReferenceId) {
+        Optional<Travel> travel = travelRepository.findFirstByEmailOrderByIdDesc(email);
+        if (travel.isEmpty()) {
+            throw new IllegalArgumentException("The travel with email " + email + " does not exist");
+        }
+
+        travel.ifPresent(t -> {
+            t.setQuoteReferenceId(quoteReferenceId);
+            travelRepository.save(t);
+        });
+    }
+
     public void updateTravelStatusByEmail(String email, TravelStatusEnum status) {
         Optional<Travel> travel = travelRepository.findFirstByEmailOrderByIdDesc(email);
         if (travel.isEmpty()) {
             throw new IllegalArgumentException("The travel with email " + email + " does not exist");
         }
 
-        var entity = TravelRequestMapper.INSTANCE.parseTravelToTravelStatus(travel.get(), status);
-        travelRepository.save(entity);
+        travel.ifPresent(t -> {
+            t.setStatus(status.name());
+            travelRepository.save(t);
+        });
     }
 }

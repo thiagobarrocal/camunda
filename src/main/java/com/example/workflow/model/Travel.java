@@ -26,25 +26,14 @@ public class Travel extends Base {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String travelerName;
-
     private String email;
-
-    private String justification;
-
     private String origin;
-
     private String destination;
-
     private String departureDate;
-
     private String returnDate;
-
     private Double amount;
-
     private String department;
-
     private String status;
-
+    private String quoteReferenceId;
 }

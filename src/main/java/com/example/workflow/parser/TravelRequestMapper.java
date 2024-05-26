@@ -24,7 +24,6 @@ public interface TravelRequestMapper {
         map.put("type", TYPE);
         map.put("travelerName", dto.getTravelerName());
         map.put("email", dto.getEmail());
-        map.put("justification", dto.getJustification());
         map.put("origin", dto.getOrigin());
         map.put("destination", dto.getDestination());
         map.put("departureDate", dto.getDepartureDate());

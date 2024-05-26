@@ -2,7 +2,8 @@ package com.example.workflow.step;
 
 import com.example.workflow.controller.dto.QuoteRequestDto;
 import com.example.workflow.gateway.QuoteApiClient;
-import com.example.workflow.service.quote.QuoteInternalService;
+import com.example.workflow.service.TravelService;
+import com.example.workflow.utils.TravelStatusEnum;
 import feign.FeignException;
 import jakarta.inject.Named;
 import lombok.extern.slf4j.Slf4j;
@@ -18,20 +19,16 @@ public class QuoteStep implements JavaDelegate {
 
     private static final String CAMUNDA_VARIABLE_TRAVELER_NAME = "travelerName";
     private static final String CAMUNDA_VARIABLE_EMAIL = "email";
-    private static final String CAMUNDA_VARIABLE_ORIGIN = "origin";
-    private static final String CAMUNDA_VARIABLE_DESTINATION = "destination";
-    private static final String CAMUNDA_VARIABLE_DEPARTURE_DATE = "departureDate";
-    private static final String CAMUNDA_VARIABLE_RETURN_DATE = "returnDate";
-
+    private static final String CAMUNDA_VARIABLE_AMOUNT = "amount";
 
     private QuoteApiClient quoteApiClient;
 
-    private QuoteInternalService quoteInternalService;
+    private TravelService travelService;
 
     @Autowired
-    public QuoteStep(QuoteApiClient quoteApiClient, QuoteInternalService quoteInternalService) {
+    public QuoteStep(QuoteApiClient quoteApiClient, TravelService travelService) {
         this.quoteApiClient = quoteApiClient;
-        this.quoteInternalService = quoteInternalService;
+        this.travelService = travelService;
     }
 
     @Override
@@ -41,20 +38,25 @@ public class QuoteStep implements JavaDelegate {
                 .builder()
                 .travelerName(delegateExecution.getVariable(CAMUNDA_VARIABLE_TRAVELER_NAME).toString())
                 .email(delegateExecution.getVariable(CAMUNDA_VARIABLE_EMAIL).toString())
-                .origin(delegateExecution.getVariable(CAMUNDA_VARIABLE_ORIGIN).toString())
-                .destination(delegateExecution.getVariable(CAMUNDA_VARIABLE_DESTINATION).toString())
-                .departureDate(delegateExecution.getVariable(CAMUNDA_VARIABLE_DEPARTURE_DATE).toString())
-                .returnDate(delegateExecution.getVariable(CAMUNDA_VARIABLE_RETURN_DATE).toString())
+                .totalExpenseQuote(Double.valueOf(delegateExecution.getVariable(CAMUNDA_VARIABLE_AMOUNT).toString()))
                 .build();
         try {
             var apiQuoteResponse = quoteApiClient.execute(quoteRequest);
-            quoteRequest.setQuoteReferenceId(apiQuoteResponse.getQuoteId());
-            quoteInternalService.saveQuote(quoteRequest);
+            this.updateQuoteReferenceIdInTravel(quoteRequest.getEmail(), apiQuoteResponse.getQuoteId());
+            this.updateTravelStatusByEmail(quoteRequest.getEmail(), TravelStatusEnum.APPROVED);
             delegateExecution.setVariable("quoteReferenceId", apiQuoteResponse.getQuoteId());
 
         } catch (FeignException.FeignClientException e) {
             log.error("Error calling quote api", e);
             throw e;
         }
+    }
+
+    private void updateQuoteReferenceIdInTravel(String email, String quoteId) {
+        travelService.updateTravelQuoteIdByEmail(email, quoteId);
+    }
+
+    public void updateTravelStatusByEmail(String email, TravelStatusEnum status) {
+        travelService.updateTravelStatusByEmail(email, status);
     }
 }
