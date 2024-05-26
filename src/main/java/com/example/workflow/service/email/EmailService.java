@@ -1,9 +1,9 @@
-package com.example.workflow.service;
+package com.example.workflow.service.email;
 
 import org.springframework.stereotype.Service;
 
 @Service
-public class EmailSender {
+public class EmailService {
     private EmailStrategy emailStrategy;
 
     public void setEmailStrategy(EmailStrategy emailStrategy) {

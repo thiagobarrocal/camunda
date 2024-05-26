@@ -4,7 +4,7 @@ import com.example.workflow.controller.dto.Erro;
 import com.example.workflow.controller.dto.QuoteRequestDto;
 import com.example.workflow.controller.dto.QuoteResponseDto;
 import com.example.workflow.exception.QuoteException;
-import com.example.workflow.service.QuoteExternalService;
+import com.example.workflow.service.quote.QuoteExternalService;
 import im.aop.loggers.advice.around.LogAround;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;

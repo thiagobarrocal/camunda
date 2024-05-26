@@ -1,4 +1,4 @@
-package com.example.workflow.service;
+package com.example.workflow.service.quote;
 
 import com.example.workflow.controller.dto.QuoteRequestDto;
 import com.example.workflow.controller.dto.QuoteResponseDto;

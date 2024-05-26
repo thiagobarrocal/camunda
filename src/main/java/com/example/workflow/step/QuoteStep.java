@@ -2,7 +2,7 @@ package com.example.workflow.step;
 
 import com.example.workflow.controller.dto.QuoteRequestDto;
 import com.example.workflow.gateway.QuoteApiClient;
-import com.example.workflow.service.QuoteInternalService;
+import com.example.workflow.service.quote.QuoteInternalService;
 import feign.FeignException;
 import jakarta.inject.Named;
 import lombok.extern.slf4j.Slf4j;
@@ -50,7 +50,7 @@ public class QuoteStep implements JavaDelegate {
             var apiQuoteResponse = quoteApiClient.execute(quoteRequest);
             quoteRequest.setQuoteReferenceId(apiQuoteResponse.getQuoteId());
             quoteInternalService.saveQuote(quoteRequest);
-            delegateExecution.setVariable("quoteId", apiQuoteResponse.getQuoteId());
+            delegateExecution.setVariable("quoteReferenceId", apiQuoteResponse.getQuoteId());
 
         } catch (FeignException.FeignClientException e) {
             log.error("Error calling quote api", e);
