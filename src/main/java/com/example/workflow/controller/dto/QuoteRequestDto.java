@@ -3,16 +3,18 @@ package com.example.workflow.controller.dto;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Getter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class QuoteRequestDto {
 
-    @Setter
     private String quoteReferenceId;
 
     @NotBlank(message = "The name of customer is required")
@@ -33,5 +35,7 @@ public class QuoteRequestDto {
 
     @NotBlank(message = "The return date is required")
     private String returnDate;
+
+
 
 }

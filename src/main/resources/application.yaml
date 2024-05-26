@@ -5,11 +5,14 @@ spring:
     username: sa
     password: sa
     platform: h2
+    hikari:
+      maximum-pool-size: 10
+
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: update
-    show-sql: true
+    show-sql: false
     properties:
       hibernate:
         format_sql: true
@@ -34,6 +37,10 @@ camunda:
     generic-properties:
       properties:
         historyTimeToLive: P1D
+    deployment-resource-pattern: "classpath:/processes/*.*"
+    auto-deployment-enabled: true
+    database:
+      schema-update: true
 
 # SWAGGER CONFIG
 springdoc:
@@ -48,7 +55,6 @@ springdoc:
     displayRequestDuration: true
     deepLinking: true
     defaultModelsExpandDepth: 1
-
 
 ### Spring Boot Actuator ###
 # Metrics related configurations

@@ -35,8 +35,6 @@ public class Quote extends Base {
 
     private String email;
 
-    private String justification;
-
     private String origin;
 
     private String destination;

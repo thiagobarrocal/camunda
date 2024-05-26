@@ -2,6 +2,7 @@ package com.example.workflow.controller;
 
 import com.example.workflow.controller.dto.Erro;
 import com.example.workflow.controller.dto.QuoteRequestDto;
+import com.example.workflow.controller.dto.QuoteResponseDto;
 import com.example.workflow.exception.QuoteException;
 import com.example.workflow.service.QuoteExternalService;
 import im.aop.loggers.advice.around.LogAround;
@@ -26,9 +27,8 @@ public class QuoteController {
 
     @LogAround
     @PostMapping
-    public ResponseEntity<?> create(@Valid @RequestBody QuoteRequestDto quoteRequestDto) {
-        quoteService.createQuote(quoteRequestDto);
-        return ResponseEntity.ok().body("Quote create successfully");
+    public ResponseEntity<QuoteResponseDto> create(@Valid @RequestBody QuoteRequestDto quoteRequestDto) {
+        return ResponseEntity.ok().body(quoteService.createQuote(quoteRequestDto));
     }
 
     @ExceptionHandler(QuoteException.class)
