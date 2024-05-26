@@ -17,7 +17,7 @@
       <bpmn:outgoing>Flow_0hbmwmi</bpmn:outgoing>
       <bpmn:outgoing>Flow_08jm4b2</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="Flow_0hbmwmi" name="result==&#34;automatic&#34;" sourceRef="Gateway_1vx0p33" targetRef="Gateway_1yjw8mk">
+    <bpmn:sequenceFlow id="Flow_0hbmwmi" name="result==&#34;automatic&#34;" sourceRef="Gateway_1vx0p33" targetRef="Activity_0ntgl4m">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${result=="automatic"}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_08jm4b2" name="result==&#34;manual&#34;" sourceRef="Gateway_1vx0p33" targetRef="Activity_035bze7">
@@ -63,7 +63,7 @@
       <bpmn:outgoing>Flow_0i26cl8</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="Flow_0hru6ix" sourceRef="Activity_035bze7" targetRef="Gateway_077s2ci" />
-    <bpmn:sequenceFlow id="Flow_1dzun07" name="travelCheckpoint==&#34;approved&#34;" sourceRef="Gateway_077s2ci" targetRef="Gateway_1yjw8mk">
+    <bpmn:sequenceFlow id="Flow_1dzun07" name="travelCheckpoint==&#34;approved&#34;" sourceRef="Gateway_077s2ci" targetRef="Activity_0ntgl4m">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${travelCheckpoint=="approved"}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_1qbdhq8" name="travelCheckpoint==&#34;denied&#34;" sourceRef="Gateway_077s2ci" targetRef="Activity_1panqbc">
@@ -87,21 +87,14 @@
       <bpmn:outgoing>Flow_0kgjtr7</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="Activity_0ntgl4m" name="quote" camunda:delegateExpression="#{quoteStep}">
-      <bpmn:incoming>Flow_07j6463</bpmn:incoming>
+      <bpmn:incoming>Flow_1dzun07</bpmn:incoming>
+      <bpmn:incoming>Flow_0hbmwmi</bpmn:incoming>
       <bpmn:outgoing>Flow_0313q4i</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="Activity_0s2od53" name="customer notification" camunda:delegateExpression="#{notificationStep}">
       <bpmn:incoming>Flow_0313q4i</bpmn:incoming>
       <bpmn:outgoing>Flow_0ml8jej</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:exclusiveGateway id="Gateway_1yjw8mk">
-      <bpmn:incoming>Flow_0hbmwmi</bpmn:incoming>
-      <bpmn:incoming>Flow_1dzun07</bpmn:incoming>
-      <bpmn:outgoing>Flow_07j6463</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="Flow_07j6463" sourceRef="Gateway_1yjw8mk" targetRef="Activity_0ntgl4m">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${travelCheckpoint=="approved"}</bpmn:conditionExpression>
-    </bpmn:sequenceFlow>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="main-flow">
@@ -143,14 +136,11 @@
       <bpmndi:BPMNShape id="Activity_00i9dld_di" bpmnElement="Activity_1panqbc">
         <dc:Bounds x="1230" y="240" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1prcnkg_di" bpmnElement="Activity_0s2od53">
-        <dc:Bounds x="1410" y="77" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_14cb2d9_di" bpmnElement="Activity_0ntgl4m">
-        <dc:Bounds x="1230" y="77" width="100" height="80" />
+        <dc:Bounds x="1100" y="77" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Gateway_1yjw8mk_di" bpmnElement="Gateway_1yjw8mk" isMarkerVisible="true">
-        <dc:Bounds x="1025" y="92" width="50" height="50" />
+      <bpmndi:BPMNShape id="Activity_1prcnkg_di" bpmnElement="Activity_0s2od53">
+        <dc:Bounds x="1360" y="77" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_0bwepdv_di" bpmnElement="Flow_0bwepdv">
         <di:waypoint x="148" y="117" />
@@ -162,9 +152,9 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0hbmwmi_di" bpmnElement="Flow_0hbmwmi">
         <di:waypoint x="755" y="117" />
-        <di:waypoint x="1025" y="117" />
+        <di:waypoint x="1100" y="117" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="787" y="86" width="86" height="27" />
+          <dc:Bounds x="792" y="89" width="86" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_08jm4b2_di" bpmnElement="Flow_08jm4b2">
@@ -193,11 +183,11 @@
         <di:waypoint x="500" y="117" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0313q4i_di" bpmnElement="Flow_0313q4i">
-        <di:waypoint x="1330" y="117" />
-        <di:waypoint x="1410" y="117" />
+        <di:waypoint x="1200" y="117" />
+        <di:waypoint x="1360" y="117" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0ml8jej_di" bpmnElement="Flow_0ml8jej">
-        <di:waypoint x="1510" y="117" />
+        <di:waypoint x="1460" y="117" />
         <di:waypoint x="1562" y="117" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0hru6ix_di" bpmnElement="Flow_0hru6ix">
@@ -206,9 +196,10 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1dzun07_di" bpmnElement="Flow_1dzun07">
         <di:waypoint x="1050" y="255" />
-        <di:waypoint x="1050" y="142" />
+        <di:waypoint x="1050" y="140" />
+        <di:waypoint x="1100" y="140" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1059" y="187" width="82" height="27" />
+          <dc:Bounds x="1059" y="186" width="82" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1qbdhq8_di" bpmnElement="Flow_1qbdhq8">
@@ -233,10 +224,6 @@
         <di:waypoint x="1000" y="450" />
         <di:waypoint x="380" y="450" />
         <di:waypoint x="380" y="260" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_07j6463_di" bpmnElement="Flow_07j6463">
-        <di:waypoint x="1075" y="117" />
-        <di:waypoint x="1230" y="117" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

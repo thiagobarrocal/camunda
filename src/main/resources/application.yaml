@@ -7,20 +7,6 @@ spring:
     platform: h2
     hikari:
       maximum-pool-size: 10
-  spring:
-    mail:
-      host: smtp.gmail.com
-      port: 587
-      username: ${GMAIL_USERNAME:thiagobarrocal@gmail.com}
-      password: ${GMAIL_PASSWORD:ostrafrita}
-      properties:
-        mail:
-          smtp:
-            auth: true
-            starttls:
-              enable: true
-            ssl:
-              trust: smtp.gmail.com
 
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
@@ -116,3 +102,8 @@ im:
 logging:
   pattern:
     level: '%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]'
+
+# ZIPKIN CONFIG
+
+# SEND GRIP EMAIL CONFIG
+SENDGRID_API_KEY: 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
