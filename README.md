@@ -6,7 +6,7 @@ Description: Project for test Java Springboot and Camunda stack.
 
 ## Swagger API documentation:
 ```
-http://localhost:8080/awards/api-docs
+http://localhost:8080/api-docs
 ```
 ```
 http://localhost:8080/swagger-ui/index.html
