@@ -8,6 +8,7 @@ import com.example.workflow.utils.TravelStatusEnum;
 import feign.FeignException;
 import jakarta.inject.Named;
 import lombok.extern.slf4j.Slf4j;
+import org.camunda.bpm.engine.delegate.BpmnError;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,19 +43,14 @@ public class QuoteStep implements JavaDelegate {
                 .email(delegateExecution.getVariable(Constants.CAMUNDA_VARIABLE_EMAIL).toString())
                 .totalExpenseQuote(Double.valueOf(delegateExecution.getVariable(Constants.CAMUNDA_VARIABLE_AMOUNT).toString()))
                 .build();
-        try {
-            if (ERROR_IN_QUOTE_API) {
-                throw new FeignException.FeignClientException(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Error in quote api", null, null, null);
-            }
-            var apiQuoteResponse = quoteApiClient.execute(quoteRequest);
-            this.updateQuoteReferenceIdInTravel(quoteRequest.getEmail(), apiQuoteResponse.getQuoteId());
-            this.updateTravelStatusByEmail(quoteRequest.getEmail(), TravelStatusEnum.APPROVED);
-            delegateExecution.setVariable(Constants.CAMUNDA_VARIABLE_QUOTE_REFERENCE_ID, apiQuoteResponse.getQuoteId());
 
-        } catch (FeignException.FeignClientException e) {
-            log.error("Error calling quote api", e);
-            throw e;
+        if (ERROR_IN_QUOTE_API) {
+            throw new BpmnError(Constants.QUOTE_API_ERROR_CODE, "Error calling quote api");
         }
+        var apiQuoteResponse = quoteApiClient.execute(quoteRequest);
+        this.updateQuoteReferenceIdInTravel(quoteRequest.getEmail(), apiQuoteResponse.getQuoteId());
+        this.updateTravelStatusByEmail(quoteRequest.getEmail(), TravelStatusEnum.APPROVED);
+        delegateExecution.setVariable(Constants.CAMUNDA_VARIABLE_QUOTE_REFERENCE_ID, apiQuoteResponse.getQuoteId());
     }
 
     private void updateQuoteReferenceIdInTravel(String email, String quoteId) {

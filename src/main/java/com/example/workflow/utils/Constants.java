@@ -35,4 +35,7 @@ public class Constants {
     public static final String CAMUNDA_VARIABLE_AMOUNT = "amount";
     public static final String CAMUNDA_VARIABLE_QUOTE_REFERENCE_ID = "quoteReferenceId";
 
+    // ERROR CODES
+    public static final String QUOTE_API_ERROR_CODE = "quote_api_exception";
+
 }

@@ -5,10 +5,12 @@ import com.example.workflow.controller.dto.Erro;
 import com.example.workflow.controller.dto.TravelRequestDTO;
 import com.example.workflow.exception.CamundaProcessException;
 import com.example.workflow.service.ProcessService;
+import com.example.workflow.utils.Constants;
 import im.aop.loggers.advice.around.LogAround;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
+import org.camunda.bpm.engine.delegate.BpmnError;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -49,6 +51,11 @@ public class ProccessController {
 
     @ExceptionHandler(CamundaProcessException.class)
     public ResponseEntity<Erro> handlerFeignException(final CamundaProcessException ex) {
+        return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Erro(ex.getMessage()));
+    }
+
+    @ExceptionHandler(BpmnError.class)
+    public ResponseEntity<Erro> handlerBpmException(final CamundaProcessException ex) {
         return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Erro(ex.getMessage()));
     }
 }
