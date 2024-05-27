@@ -15,6 +15,10 @@
     <maven.compiler.target>17</maven.compiler.target>
     <mapstruct.version>1.5.5.Final</mapstruct.version>
     <openfeign.version>4.1.0</openfeign.version>
+    <version.junit>4.13.2</version.junit>
+    <version.assertj>3.24.2</version.assertj>
+    <version.mockito>4.4.0</version.mockito>
+    <version.slf4j>1.7.36</version.slf4j>
   </properties>
 
   <dependencyManagement>
@@ -139,6 +143,24 @@
       <groupId>com.sendgrid</groupId>
       <artifactId>sendgrid-java</artifactId>
       <version>4.10.2</version>
+    </dependency>
+
+    <!-- Tests -->
+    <dependency>
+      <groupId>org.camunda.bpm</groupId>
+      <artifactId>camunda-bpm-assert</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.camunda.bpm.extension</groupId>
+      <artifactId>camunda-bpm-junit5</artifactId>
+      <version>1.0.2</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <version>${version.mockito}</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 

@@ -1,0 +1,5 @@
+camunda:
+  bpm:
+    generic-properties:
+      properties:
+        historyTimeToLive: P1D

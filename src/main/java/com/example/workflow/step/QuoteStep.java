@@ -5,7 +5,6 @@ import com.example.workflow.gateway.QuoteApiClient;
 import com.example.workflow.service.TravelService;
 import com.example.workflow.utils.Constants;
 import com.example.workflow.utils.TravelStatusEnum;
-import feign.FeignException;
 import jakarta.inject.Named;
 import lombok.extern.slf4j.Slf4j;
 import org.camunda.bpm.engine.delegate.BpmnError;
@@ -13,7 +12,6 @@ import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -22,7 +20,7 @@ import org.springframework.stereotype.Service;
 public class QuoteStep implements JavaDelegate {
 
     @Value("${ERROR_QUOTE_API}")
-    public Boolean ERROR_IN_QUOTE_API;
+    public boolean errorInQuoteApi;
 
     private final QuoteApiClient quoteApiClient;
 
@@ -44,7 +42,7 @@ public class QuoteStep implements JavaDelegate {
                 .totalExpenseQuote(Double.valueOf(delegateExecution.getVariable(Constants.CAMUNDA_VARIABLE_AMOUNT).toString()))
                 .build();
 
-        if (ERROR_IN_QUOTE_API) {
+        if (errorInQuoteApi) {
             throw new BpmnError(Constants.QUOTE_API_ERROR_CODE, "Error calling quote api");
         }
         var apiQuoteResponse = quoteApiClient.execute(quoteRequest);
@@ -59,5 +57,13 @@ public class QuoteStep implements JavaDelegate {
 
     public void updateTravelStatusByEmail(String email, TravelStatusEnum status) {
         travelService.updateTravelStatusByEmail(email, status);
+    }
+
+    public Boolean getErrorInQuoteApi() {
+        return errorInQuoteApi;
+    }
+
+    public Boolean isErrorInQuoteApi() {
+        return errorInQuoteApi;
     }
 }
