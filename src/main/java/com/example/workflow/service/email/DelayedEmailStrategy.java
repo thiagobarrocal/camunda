@@ -18,6 +18,5 @@ public class DelayedEmailStrategy implements EmailStrategy {
     @Override
     public void sendEmail(String emailTo, String message) {
         emailSender.sendSimpleMessage(emailTo, "Approval Delayed", message);
-        log.info("Sending delayed request to approval to email {}", emailTo);
     }
 }

@@ -92,7 +92,13 @@
       <bpmn:outgoing>Flow_0313q4i</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="Activity_0s2od53" name="customer notification" camunda:delegateExpression="#{notificationStep}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="manualQuoteReferenceId">${manualQuoteReferenceId}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
       <bpmn:incoming>Flow_0313q4i</bpmn:incoming>
+      <bpmn:incoming>Flow_0v413xi</bpmn:incoming>
       <bpmn:outgoing>Flow_0ml8jej</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:boundaryEvent id="Event_08il99t" attachedToRef="Activity_0ntgl4m">
@@ -101,7 +107,13 @@
     </bpmn:boundaryEvent>
     <bpmn:sequenceFlow id="Flow_0vsanme" sourceRef="Event_08il99t" targetRef="Activity_0euz000" />
     <bpmn:userTask id="Activity_0euz000" name="manual quote">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="manualQuoteReferenceId">95ee47b8-0359-4727-b164-664ee46e0664</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
       <bpmn:incoming>Flow_0vsanme</bpmn:incoming>
+      <bpmn:outgoing>Flow_0v413xi</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:boundaryEvent id="Event_1yp8e0w" cancelActivity="false" attachedToRef="Activity_035bze7">
       <bpmn:outgoing>Flow_03h5l7h</bpmn:outgoing>
@@ -113,6 +125,7 @@
     <bpmn:serviceTask id="Activity_150bk86" name="delayed approval" camunda:delegateExpression="#{delayedApprovalStep}">
       <bpmn:incoming>Flow_03h5l7h</bpmn:incoming>
     </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0v413xi" sourceRef="Activity_0euz000" targetRef="Activity_0s2od53" />
   </bpmn:process>
   <bpmn:error id="Error_05dbcdv" name="Error_0p95s69" />
   <bpmn:error id="Error_19utt7e" name="Error_3g5sr1i" errorCode="quote_api_exception" />
@@ -266,6 +279,12 @@
         <di:waypoint x="830" y="468" />
         <di:waypoint x="830" y="510" />
         <di:waypoint x="730" y="510" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0v413xi_di" bpmnElement="Flow_0v413xi">
+        <di:waypoint x="1300" y="160" />
+        <di:waypoint x="1300" y="184" />
+        <di:waypoint x="1410" y="184" />
+        <di:waypoint x="1410" y="207" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

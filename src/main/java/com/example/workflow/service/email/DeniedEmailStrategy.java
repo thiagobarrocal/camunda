@@ -24,7 +24,6 @@ public class DeniedEmailStrategy implements EmailStrategy {
     public void sendEmail(String emailTo, String message) {
         this.updateTravelStatusByEmailToDenied(emailTo);
         emailSender.sendSimpleMessage(emailTo, "Travel Denied", message);
-        log.info("Sending rejection email to {}", emailTo);
     }
 
     public void updateTravelStatusByEmailToDenied(String email) {

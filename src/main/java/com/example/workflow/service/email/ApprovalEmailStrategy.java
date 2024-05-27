@@ -20,6 +20,5 @@ public class ApprovalEmailStrategy implements EmailStrategy {
     @Override
     public void sendEmail(String emailTo, String message) {
         emailSender.sendSimpleMessage(emailTo, "Travel Approved", message);
-        log.info("Sending approval email to {}", emailTo);
     }
 }

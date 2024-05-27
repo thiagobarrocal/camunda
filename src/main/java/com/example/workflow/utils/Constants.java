@@ -29,6 +29,7 @@ public class Constants {
     public static final String VARIABLE_NOTIFICATION_CHECKPOINT = "travelCheckpoint";
     public static final String VARIABLE_RESULT_CHECKPOINT = "result";
     public static final String VARIABLE_QUOTE_REFERENCE_ID = "quoteReferenceId";
+    public static final String VARIABLE_MANUAL_QUOTE_REFERENCE_ID = "manualQuoteReferenceId";
     public static final String VARIABLE_EMAIL_CUSTOMER = "email";
     public static final String CAMUNDA_VARIABLE_TRAVELER_NAME = "travelerName";
     public static final String CAMUNDA_VARIABLE_EMAIL = "email";

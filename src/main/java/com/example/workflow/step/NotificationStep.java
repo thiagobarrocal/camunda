@@ -27,6 +27,11 @@ public class NotificationStep implements JavaDelegate {
         String notificationType = (String) delegateExecution.getVariable(Constants.VARIABLE_NOTIFICATION_CHECKPOINT);
         String result = (String) delegateExecution.getVariable(Constants.VARIABLE_RESULT_CHECKPOINT);
         String quoteReferenceId = (String) delegateExecution.getVariable(Constants.VARIABLE_QUOTE_REFERENCE_ID);
+        String quoteReferenceIdFromManualStep = (String) delegateExecution.getVariable(Constants.VARIABLE_MANUAL_QUOTE_REFERENCE_ID);
+
+        if (quoteReferenceId == null) {
+            quoteReferenceId = quoteReferenceIdFromManualStep;
+        }
 
         if (notificationType == null && result != null && result.equals(Constants.FLOW_TYPE_AUTOMATIC)) {
             notificationType = Constants.NOTIFICATION_TYPE_APPROVED;
