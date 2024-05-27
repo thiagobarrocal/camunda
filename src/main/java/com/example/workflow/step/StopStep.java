@@ -1,19 +1,20 @@
 package com.example.workflow.step;
 
+import com.example.workflow.utils.Constants;
 import jakarta.inject.Named;
 import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.springframework.stereotype.Component;
 
-@Log
-@Named("stopStep")
+@Slf4j
+@Named(Constants.STOP_STEP_BEAN_NAME)
 @Component
 public class StopStep implements JavaDelegate {
 
     @Override
     public void execute(DelegateExecution delegateExecution) throws Exception {
-        log.info("passou no stop");
-        //delegateExecution.setVariable("lateNotificationSent", true);
+        log.info("Stopping the process...");
     }
 }

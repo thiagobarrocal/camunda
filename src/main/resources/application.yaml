@@ -109,3 +109,5 @@ logging:
 SENDGRID_API_KEY: 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
 SEND_EMAIL: false
 EMAIL_SENDER: thiagobarrocal@gmail.com
+ERROR_QUOTE_API: false
+APPROVER_EMAIL: thiagobarrocal@gmail.com

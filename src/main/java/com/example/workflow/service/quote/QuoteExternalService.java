@@ -13,7 +13,7 @@ import java.util.UUID;
 @Service
 public class QuoteExternalService {
 
-    private QuoteRepository quoteRepository;
+    private final QuoteRepository quoteRepository;
 
     @Autowired
     public QuoteExternalService(QuoteRepository quoteRepository) {

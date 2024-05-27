@@ -3,6 +3,7 @@ package com.example.workflow.step;
 import com.example.workflow.controller.dto.QuoteRequestDto;
 import com.example.workflow.gateway.QuoteApiClient;
 import com.example.workflow.service.TravelService;
+import com.example.workflow.utils.Constants;
 import com.example.workflow.utils.TravelStatusEnum;
 import feign.FeignException;
 import jakarta.inject.Named;
@@ -10,20 +11,21 @@ import lombok.extern.slf4j.Slf4j;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Slf4j
-@Named("quoteStep")
+@Named(Constants.QUOTE_STEP_BEAN_NAME)
 @Service
 public class QuoteStep implements JavaDelegate {
 
-    private static final String CAMUNDA_VARIABLE_TRAVELER_NAME = "travelerName";
-    private static final String CAMUNDA_VARIABLE_EMAIL = "email";
-    private static final String CAMUNDA_VARIABLE_AMOUNT = "amount";
+    @Value("${ERROR_QUOTE_API}")
+    public Boolean ERROR_IN_QUOTE_API;
 
-    private QuoteApiClient quoteApiClient;
+    private final QuoteApiClient quoteApiClient;
 
-    private TravelService travelService;
+    private final TravelService travelService;
 
     @Autowired
     public QuoteStep(QuoteApiClient quoteApiClient, TravelService travelService) {
@@ -36,15 +38,18 @@ public class QuoteStep implements JavaDelegate {
         log.info("Calling external quote api");
         var quoteRequest = QuoteRequestDto
                 .builder()
-                .travelerName(delegateExecution.getVariable(CAMUNDA_VARIABLE_TRAVELER_NAME).toString())
-                .email(delegateExecution.getVariable(CAMUNDA_VARIABLE_EMAIL).toString())
-                .totalExpenseQuote(Double.valueOf(delegateExecution.getVariable(CAMUNDA_VARIABLE_AMOUNT).toString()))
+                .travelerName(delegateExecution.getVariable(Constants.CAMUNDA_VARIABLE_TRAVELER_NAME).toString())
+                .email(delegateExecution.getVariable(Constants.CAMUNDA_VARIABLE_EMAIL).toString())
+                .totalExpenseQuote(Double.valueOf(delegateExecution.getVariable(Constants.CAMUNDA_VARIABLE_AMOUNT).toString()))
                 .build();
         try {
+            if (ERROR_IN_QUOTE_API) {
+                throw new FeignException.FeignClientException(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Error in quote api", null, null, null);
+            }
             var apiQuoteResponse = quoteApiClient.execute(quoteRequest);
             this.updateQuoteReferenceIdInTravel(quoteRequest.getEmail(), apiQuoteResponse.getQuoteId());
             this.updateTravelStatusByEmail(quoteRequest.getEmail(), TravelStatusEnum.APPROVED);
-            delegateExecution.setVariable("quoteReferenceId", apiQuoteResponse.getQuoteId());
+            delegateExecution.setVariable(Constants.CAMUNDA_VARIABLE_QUOTE_REFERENCE_ID, apiQuoteResponse.getQuoteId());
 
         } catch (FeignException.FeignClientException e) {
             log.error("Error calling quote api", e);

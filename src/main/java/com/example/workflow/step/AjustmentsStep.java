@@ -1,5 +1,6 @@
 package com.example.workflow.step;
 
+import com.example.workflow.utils.Constants;
 import jakarta.inject.Named;
 import lombok.extern.slf4j.Slf4j;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
@@ -7,7 +8,7 @@ import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.springframework.stereotype.Component;
 
 @Slf4j
-@Named("ajustmentsStep")
+@Named(Constants.ADJUSTMENTS_STEP_BEAN_NAME)
 @Component
 public class AjustmentsStep implements JavaDelegate {
 

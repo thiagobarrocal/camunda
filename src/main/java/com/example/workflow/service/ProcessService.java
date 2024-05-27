@@ -5,6 +5,7 @@ import com.example.workflow.controller.dto.TravelRequestDTO;
 import com.example.workflow.exception.CamundaProcessException;
 import com.example.workflow.parser.TravelRequestMapper;
 import com.example.workflow.utils.Checkers;
+import com.example.workflow.utils.Constants;
 import lombok.extern.slf4j.Slf4j;
 import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.ProcessEngines;
@@ -19,14 +20,12 @@ import java.util.Map;
 @Service
 public class ProcessService {
 
-    private TravelService travelService;
+    private final TravelService travelService;
 
     @Autowired
     public ProcessService(TravelService travelService) {
         this.travelService = travelService;
     }
-
-    private static final String START_PROCESS_ID = "main-flow";
 
     public void startProcess(TravelRequestDTO travelRequestDTO) {
         try {
@@ -35,10 +34,8 @@ public class ProcessService {
             Map<String, Object> variables = TravelRequestMapper.INSTANCE.toMap(travelRequestDTO);
             ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
             RuntimeService runtimeService = processEngine.getRuntimeService();
-            runtimeService.startProcessInstanceByKey(START_PROCESS_ID, variables);
-            //ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(START_PROCESS_ID, variables);
-            //runtimeService.deleteProcessInstance(processInstance.getId(), null);
-            log.info("Starting the process '{}' successfully", START_PROCESS_ID);
+            runtimeService.startProcessInstanceByKey(Constants.START_PROCESS_ID, variables);
+            log.info("Starting the process '{}' successfully", Constants.START_PROCESS_ID);
 
         } catch (Exception e) {
             log.error("Error starting the process: " + e.getMessage());

@@ -42,7 +42,7 @@ public class EmailSender {
                 log.info("Email sent successfully to '{}' with subject '{}'", to, subject);
 
             } else {
-                log.info("Email property configuration is set to 'false'");
+                log.info("The toggle [SEND EMAIL] is false, no email was sent");
             }
 
         } catch (IOException ex) {
