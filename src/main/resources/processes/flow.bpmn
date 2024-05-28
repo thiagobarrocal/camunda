@@ -87,6 +87,11 @@
       <bpmn:outgoing>Flow_0kgjtr7</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="Activity_0ntgl4m" name="quote" camunda:delegateExpression="#{quoteStep}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="manualQuoteReferenceId" />
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
       <bpmn:incoming>Flow_1dzun07</bpmn:incoming>
       <bpmn:incoming>Flow_0hbmwmi</bpmn:incoming>
       <bpmn:outgoing>Flow_0313q4i</bpmn:outgoing>
@@ -94,6 +99,7 @@
     <bpmn:serviceTask id="Activity_0s2od53" name="customer notification" camunda:delegateExpression="#{notificationStep}">
       <bpmn:extensionElements>
         <camunda:inputOutput>
+          <camunda:inputParameter name="manualQuoteReferenceId">${manualQuoteReferenceId}</camunda:inputParameter>
           <camunda:outputParameter name="manualQuoteReferenceId">${manualQuoteReferenceId}</camunda:outputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>

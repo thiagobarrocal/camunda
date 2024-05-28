@@ -1,4 +1,4 @@
-package com.example.workflow.step;
+package com.example.workflow.steps;
 
 import com.example.workflow.controller.dto.QuoteRequestDto;
 import com.example.workflow.gateway.QuoteApiClient;

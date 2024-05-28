@@ -1,4 +1,4 @@
-package com.example.workflow.step;
+package com.example.workflow.steps;
 
 import com.example.workflow.service.NotificationService;
 import com.example.workflow.utils.Constants;
